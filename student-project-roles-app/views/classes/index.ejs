@@ -2,6 +2,16 @@
 
 <h1>My Classes</h1>
 
+<% if (classes) { %>
+  <nav>
+    <% classes.forEach((c) => { %>
+      <div>
+        <a href="/classes/<%= c._id %>"><%= c.name %></a>
+      </div>
+    <% }) %>
+  </nav>
+  <% } %>
+
 <a href="classes/new">Add a New Class</a>
 
 <%- include('../partials/footer') %>

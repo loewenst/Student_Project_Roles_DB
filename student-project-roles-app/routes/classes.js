@@ -4,5 +4,6 @@ const passport = require('passport')
 const classCtrl = require('../controllers/classes')
 
 router.get('/', classCtrl.index)
+router.get('/new', classCtrl.new)
 
 module.exports = router
