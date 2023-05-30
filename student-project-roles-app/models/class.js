@@ -4,7 +4,11 @@ const Schema = mongoose.Schema
 const classSchema = new Schema(
   {
     name: { type: String, required: true },
-    description: String
+    description: String,
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
   },
   {
     timestamps: true
