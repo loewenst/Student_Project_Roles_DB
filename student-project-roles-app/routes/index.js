@@ -23,5 +23,4 @@ router.get('/logout', (req, res) => {
     res.redirect('/')
   })
 })
-router.get('/classes/', classCtrl.index)
 module.exports = router

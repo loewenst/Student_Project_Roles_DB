@@ -9,7 +9,10 @@ const userSchema = new Schema(
       required: true
     },
     email: String,
-    avatar: String
+    avatar: String,
+    teacher: { type: Boolean, default: false },
+    student: { type: Boolean, default: false },
+    admin: { type: Boolean, default: false }
   },
   {
     timestamps: true
