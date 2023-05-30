@@ -5,5 +5,6 @@ const classCtrl = require('../controllers/classes')
 
 router.get('/', classCtrl.index)
 router.get('/new', classCtrl.new)
+router.post('/', classCtrl.create)
 
 module.exports = router

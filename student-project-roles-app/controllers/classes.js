@@ -13,7 +13,10 @@ const newClass = (req, res) => {
   res.render('classes/new')
 }
 
+const create = (req, res) => {}
+
 module.exports = {
   index,
-  new: newClass
+  new: newClass,
+  create
 }
