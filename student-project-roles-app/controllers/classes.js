@@ -23,9 +23,9 @@ const create = async (req, res) => {
 }
 
 const show = async (req, res) => {
-  const theClass = await Class.findById(req.params.id)
-  console.log(theClass)
-  theClass.populate('students', 'projects')
+  const theClass = await Class.findById(req.params.id).populate('projects')
+  //console.log(theClass)
+  //theClass.populate('students', 'projects')
   res.render('classes/show', {
     theClass
   })

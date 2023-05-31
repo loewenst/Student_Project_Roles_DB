@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+
+<h1>This is the New Project Page</h1>
+
+<form action="/classes/<%= theClass._id %>/projects" method="POST">
+  <label>Project Name:
+    <input type="text" name="name">
+  </label><br>
+  <label>Description:
+    <textarea name="description" placeholder="A brief explanation of the nature of the project."></textarea>
+  </label><br>
+  <label>Roles:
+    <input type="text" name="roles" placeholder="Write the names of the roles, separated by a comma.">
+  </label>
+  <button type="submit">Add Project</button>
+</form>
+
+<%- include('../partials/footer') %>

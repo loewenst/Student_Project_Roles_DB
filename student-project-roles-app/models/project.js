@@ -9,7 +9,11 @@ const projectSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Student'
     },
-    roles: []
+    roles: [],
+    class: {
+      type: Schema.Types.ObjectId,
+      ref: 'Class'
+    }
   },
   {
     timestamps: true

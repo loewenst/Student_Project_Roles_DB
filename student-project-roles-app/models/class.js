@@ -9,14 +9,18 @@ const classSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    projects: {
-      type: Schema.Types.ObjectId,
-      ref: 'Project'
-    },
-    students: {
-      type: Schema.Types.ObjectId,
-      ref: 'Student'
-    }
+    projects: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+      }
+    ],
+    students: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Student'
+      }
+    ]
   },
   {
     timestamps: true
