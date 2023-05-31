@@ -6,5 +6,10 @@ const ensureLoggedIn = require('../config/ensureLoggedIn')
 
 router.get('/classes/:id/projects/new', ensureLoggedIn, projectCtrl.new)
 router.post('/classes/:id/projects', ensureLoggedIn, projectCtrl.create)
+router.get(
+  '/classes/:classId/projects/:projectId',
+  ensureLoggedIn,
+  projectCtrl.show
+)
 
 module.exports = router

@@ -35,7 +35,15 @@ const newProject = async (req, res) => {
   res.render(`projects/new`, { theClass })
 }
 
+const show = async (req, res) => {
+  const project = await Project.findById(req.params.projectId)
+  res.render('classes/show', {
+    theClass
+  })
+}
+
 module.exports = {
   new: newProject,
-  create
+  create,
+  show
 }

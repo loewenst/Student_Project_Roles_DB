@@ -5,7 +5,19 @@ const studentSchema = new Schema(
   {
     lastName: { type: String, required: true },
     firstName: { type: String, required: true },
-    email: { type: String, required: true }
+    email: { type: String, required: true },
+    classes: [
+      {
+        class: { type: Schema.Types.ObjectId, ref: 'Class' },
+        projects: [
+          {
+            project: { type: Schema.Types.ObjectId, ref: 'Project' },
+            role: String,
+            group: Number
+          }
+        ]
+      }
+    ]
   },
   {
     timestamps: true
