@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<h1>This is the New Student Page</h1>
+
+<form action="/classes/<%= theClass._id %>/students" method="POST">
+  <h4>Student Information</h4>
+  <label>Last Name:
+    <input type="text" name="lastName">
+  <label>First Name:
+    <input type="text" name="firstName">
+  </label><br>
+  <label>Email:
+    <input type="text" name="email">
+  <button type="submit">Add Student</button>
+</form>
+
+<%- include('../partials/footer') %>

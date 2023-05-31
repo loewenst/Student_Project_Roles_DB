@@ -22,32 +22,15 @@
       <tr>
         <td><%= s.lastName %></td>
         <td><%= s.firstName %></td>
-        <td><%= s.classes[classIndex][projectIndex].role %></td>
-        <td><%= s.classes[classIndex][projectIndex].group  %></td>
-        <td><a href="classes/<%= class._id %>/projects/<%= project._id %>/edit">EDIT</a></td>
+        <td><%= s.classes[classIndex(s)][projectIndex(s)].role %></td>
+        <td><%= s.classes[classIndex(s)][projectIndex(s)].group %></td>
+        <td>EDIT</td>
       </tr>
       <% }) %>
-      </tbody>
-</table>
-<% } %>
-
-<% if(project.students) { %>
-    <% project.students.forEach((s) => { %>
-      <a href="/classes/<%= theClass._id %>/projects/<%= p._id %>"><%= p.name %></a>
-    <% }); %>
-<% } else { %>
-  <h5>No Projects Yet</h5>
-<% } %>
-<a href="/classes/<%= theClass._id %>/projects/new">Add Project</a>
-
-<h3>Students</h3>
-<% if(theClass.students) { %>
-  <% theClass.students.forEach((s) => { %>
-    <a href="/classes/<%= theClass._id %>/students/<%= s._id %>"><%= s.lastName %>, <%= s.firstName %></a>
-  <% }); %>
-<% } else { %>
-<h5>No Students Yet</h5>
-<% } %>
-<a href="/classes/<%= theClass._id %>/students/new">Add Student</a>
+    </tbody>
+  </table>
+  <% } %>
+  
+  <a href="classes/<%= theClass._id %>/projects/<%= project._id %>/edit">Add Students, Assign Roles and More</a>
 
 <%- include('../partials/footer') %>

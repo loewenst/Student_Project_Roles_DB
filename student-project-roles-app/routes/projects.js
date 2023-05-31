@@ -11,5 +11,10 @@ router.get(
   ensureLoggedIn,
   projectCtrl.show
 )
+router.get(
+  '/classes/:classId/projects/:projectId/edit',
+  ensureLoggedIn,
+  projectCtrl.edit
+)
 
 module.exports = router
