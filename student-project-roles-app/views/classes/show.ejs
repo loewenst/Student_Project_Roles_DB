@@ -1,0 +1,24 @@
+<%- include('../partials/header') %>
+
+<h1><%= theClass.name %></h1>
+
+<h3>Projects</h3>
+<% if(theClass.projects) { %>
+    <% theClass.projects.forEach((p) => { %>
+      <a href="/classes/<%= theClass._id %>/projects/<%= p._id %>"><%= p.name %></a>
+    <% }); %>
+<% } else { %>
+  <h5>No Projects Yet</h5>
+<% } %>
+
+
+<h3>Students</h3>
+<% if(theClass.students) { %>
+  <% theClass.students.forEach((s) => { %>
+    <a href="/classes/<%= theClass._id %>/students/<%= s._id %>"><%= s.lastName %>, <%= s.firstName %></a>
+  <% }); %>
+<% } else { %>
+<h5>No Students Yet</h5>
+<% } %>
+
+<%- include('../partials/footer') %>

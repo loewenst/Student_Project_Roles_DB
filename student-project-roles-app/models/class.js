@@ -8,6 +8,14 @@ const classSchema = new Schema(
     creator: {
       type: Schema.Types.ObjectId,
       ref: 'User'
+    },
+    projects: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    },
+    students: {
+      type: Schema.Types.ObjectId,
+      ref: 'Student'
     }
   },
   {
