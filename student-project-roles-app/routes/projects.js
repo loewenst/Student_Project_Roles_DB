@@ -17,4 +17,9 @@ router.get(
   projectCtrl.edit
 )
 
+router.delete(
+  '/classes/:classId/projects/:projectId',
+  ensureLoggedIn,
+  projectCtrl.delete
+)
 module.exports = router

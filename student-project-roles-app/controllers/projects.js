@@ -90,9 +90,39 @@ const edit = async (req, res) => {
   res.render(`projects/new`, { theClass })
 }
 
+const deleteProject = async (req, res) => {
+  console.log('Hitting the Controller')
+  //remove the project
+  await Project.findByIdAndRemove(req.params.projectId)
+  //remove the project from the class schema
+  const theClass = await Class.findById(req.params.classId)
+  const projectIdx = theClass.projects.findIndex((id) =>
+    id.equals(req.params.projectId)
+  )
+  await theClass.projects.splice([projectIdx], 1)
+  await theClass.save()
+  //remove the project from the student schema
+  const students = await Student.find({
+    'classes.projects.project': req.params.projectId
+  })
+  students.forEach(async (student) => {
+    let classIdx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.classId)
+    )
+    let projectIdx = student.classes[classIdx].projects.findIndex((o) =>
+      o['project'].equals(req.params.projectId)
+    )
+    student.classes[classIdx].projects.splice([projectIdx], 1)
+    await student.save()
+    console.log(student)
+  })
+  res.redirect(`/classes/${theClass._id}/`)
+}
+
 module.exports = {
   new: newProject,
   create,
   show,
-  edit
+  edit,
+  delete: deleteProject
 }
