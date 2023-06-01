@@ -2,63 +2,85 @@
 
 <form action="/classes/<%= theClass._id %>/projects/<%= project._id %>?_method=PUT" method="POST">
   <h1>Project Name:</h1>
-  <input type="text" value="<%= project.name %>">
+  <input type="text" name="name" value="<%= project.name %>">
 </br>
 
   <h3>Description:</h3>
-  <input type="text" value="<%= project.description %>">
+  <input type="text" name="description" value="<%= project.description %>">
   </br></br>
+  
+  <h3>Roles:</h3>
+  <input type="text" name="roles" value="<%= project.roles.join(', ') %>">
+
+  <label>Number of Groups:
+    <input type="number" name="groups" value="project.groups.length">
+  </label>
   <button type="submit">Submit Changes</button>
 </form>
 
-<h3>Students</h3>
-<% if(students) { %>
-<table>
-  <thead>
-    <tr>
-      <th>Last Name</th>
-      <th>First Name</th>
-      <th>Currently In Project</th>
-      <th>Role</th>
-      <th>Group</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% students.forEach((s) => { %>
-      <tr>
-        <td><%= s.lastName %></td>
-        <td><%= s.firstName %></td>
-        <td><%= inProject(s) %></td>
-        <td>  <label>Role:</label>
-          <select name="role">
-            <option value=""></option>
-            <% project.roles.forEach((r) => { %>
-              <% if (s.classes[classIndex(s)].projects[projectIndex(s)].role === r) { %>
-            <option selected value="<%= r %>"><%= r %></option>
-            <% } else {%>
-              <option value="<%= r %>"><%= r %></option>
-              <% }}) %>
-          </select></td>
-        <td><label>Group:</label>
-          <select name="group">
-            <option value=""></option>
-            <% project.groups.forEach((g) => { %>
-              <% if (s.classes[classIndex(s)].projects[projectIndex(s)].group === g) { %>
-            <option selected value="<%= g %>"><%= g %></option>
-            <% } else {%>
-              <option value="<%= g %>"><%= g %></option>
-              <% }}) %>
-          </select></td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
+
+<form action="/classes/<%= theClass._id %>/projects/<%= project._id %>?_method=PUT" method="POST"></form>
+  <h3>Students</h3>
+  <% if(students) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Role</th>
+          <th>Group</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach((s) => { %>
+          <tr>
+            <td><%= s.lastName %></td>
+            <td><%= s.firstName %></td>
+            <td><label>Role:</label>
+              <select name="<%= s._id %>_role">
+                <option value=""></option>
+                <% project.roles.forEach((r) => { %>
+                  <% if (s.classes[classIndex(s)].projects[projectIndex(s)] === undefined) { %>
+                    <option value="<%= r %>"><%= r %></option>
+                  <% } else { %>
+                    <% if (s.classes[classIndex(s)].projects[projectIndex(s)].role === r) { %>
+                      <option selected value="<%= r %>"><%= r %></option>
+                    <% } else {%>
+                      <option value="<%= r %>"><%= r %></option>
+                <% }}}) %>
+              </select>
+            </td> 
+            <td><label>Group:</label>
+              <select name="<%= s._id %>_group">
+                <option value=""></option>
+                <% project.groups.forEach((g) => { %>
+                  <% if (s.classes[classIndex(s)].projects[projectIndex(s)] === undefined) { %>
+                    <option value="<%= g %>"><%= g %></option>
+                  <% } else { %>
+                    <% if (s.classes[classIndex(s)].projects[projectIndex(s)].group === g) { %>
+                      <option selected value="<%= g %>"><%= g %></option>
+                    <% } else {%>
+                      <option value="<%= g %>"><%= g %></option>
+                <% }}}) %>
+              </select>
+            </td>
+            <td>
+              <label> In Project:
+                <% if (s.classes[classIndex(s)].projects[projectIndex(s)] === undefined) { %>
+                  <input type="checkbox" id="<%= s._id %>" name="students" value="<%= s._id %>">
+                <% } else { %>
+                  <input type="checkbox" checked id="<%= s._id %>" name="students" value="<%= s._id %>">
+                <% } %>
+              </label>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
   <% } %>
-
-
-  <p>scraps:
-    s.classes[classIndex(s)].projects[projectIndex(s)].role
-    s.classes[classIndex(s)].projects[projectIndex(s)].group
-  </p>
-
+  <button type="submit">Submit Changes</button>
+</form>
+                              
+                              
+                    
 <%- include('../partials/footer') %>

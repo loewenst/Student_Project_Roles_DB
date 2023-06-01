@@ -3,26 +3,24 @@ const Project = require('../models/project')
 const Student = require('../models/student')
 
 const create = async (req, res) => {
-  //console.log('Hitting the Controller')
+  //formatting the roles
   let roles = req.body.roles.split(' ').join('').split(',')
   let properRoles = []
   roles.forEach((role) => {
     let properRole = role.charAt(0).toUpperCase() + role.slice(1)
     properRoles.push(properRole)
   })
-  //console.log(properRoles)
   req.body.roles = properRoles
+  //creating an array of groups
   let groups = []
   for (let i = 0; i < req.body.groups; i++) {
     groups.push(i + 1)
   }
   req.body.groups = groups
-  console.log(req.body.groups)
-  console.log(req.params.id)
   const theClass = await Class.findById(req.params.id)
   req.body.class = theClass._id
-  console.log(req.body)
   const project = await Project.create(req.body)
+  //updating the student models with the project ids
   req.body.students.forEach(async (ObjectId) => {
     let student = await Student.findById(ObjectId)
     let classIdx = student.classes.findIndex((o) =>
@@ -39,10 +37,6 @@ const create = async (req, res) => {
     await project.save()
     theClass.projects.push(project._id)
     await theClass.save()
-    //req.body.students.forEach(async (ObjectId) => {
-    //  let student = await Student.findById(ObjectId)
-    //  await student.save()
-    //})
   } catch (err) {
     console.log(err)
     res.render(`classes/${theClass._id}/projects/new`, {
@@ -87,20 +81,9 @@ const show = async (req, res) => {
 }
 
 const edit = async (req, res) => {
-  console.log('Hitting the Edit Controller')
   const theClass = await Class.findById(req.params.classId).populate('students')
-  console.log(theClass.students)
   const project = await Project.findById(req.params.projectId)
   const students = theClass.students
-  const inProject = (s) => {
-    //ternary, if student is in project Y, otherwise N
-  }
-  const hasRole = (s) => {
-    //ternary, if student has a role return role, otherwise blank
-  }
-  const hasGroup = (s) => {
-    //ternary, if student has group return group, otherwise blank
-  }
   const classIndex = (student) => {
     let idx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.classId)
@@ -117,7 +100,6 @@ const edit = async (req, res) => {
     theClass,
     students,
     project,
-    inProject,
     classIndex,
     projectIndex
   })
@@ -132,7 +114,7 @@ const deleteProject = async (req, res) => {
   const projectIdx = theClass.projects.findIndex((id) =>
     id.equals(req.params.projectId)
   )
-  await theClass.projects.splice([projectIdx], 1)
+  theClass.projects.splice([projectIdx], 1)
   await theClass.save()
   //remove the project from the student schema
   const students = await Student.find({
@@ -152,10 +134,73 @@ const deleteProject = async (req, res) => {
   res.redirect(`/classes/${theClass._id}/`)
 }
 
+const update = async (req, res) => {
+  const theClass = await Class.findById(req.params.classId).populate('students')
+  const project = await Project.findById(req.params.projectId)
+  const students = theClass.students
+  //formatting the new roles
+  let roles = req.body.roles.split(' ').join('').split(',')
+  let properRoles = []
+  roles.forEach((role) => {
+    let properRole = role.charAt(0).toUpperCase() + role.slice(1)
+    properRoles.push(properRole)
+  })
+  req.body.roles = properRoles
+  //making the new groups number into an array
+  let groups = []
+  for (let i = 0; i < req.body.groups; i++) {
+    groups.push(i + 1)
+  }
+  req.body.groups = groups
+  //getting rid of the project id from all students who have it in their models
+  const currentStudents = await Student.find({
+    'classes.projects.project': req.params.projectId
+  })
+  currentStudents.forEach(async (student) => {
+    let classIdx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.classId)
+    )
+    let projectIdx = student.classes[classIdx].projects.findIndex((o) =>
+      o['project'].equals(req.params.projectId)
+    )
+    student.classes[classIdx].projects.splice([projectIdx], 1)
+    await student.save()
+  })
+  //adding the project id to all students currently selected
+  req.body.students.forEach(async (ObjectId) => {
+    let student = await Student.findById(ObjectId)
+    let classIdx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.classId)
+    )
+    let studentRole = `${student._id}_role`
+    let studentGroup = `${student._id}_group`
+    let newProject = {
+      project: project._id,
+      role: req.body[studentRole],
+      group: req.body[studentGroup]
+    }
+    student.classes[classIdx].projects.push(newProject)
+    await student.save()
+  })
+  try {
+    await Project.findOneAndUpdate({ _id: req.params.projectId }, req.body)
+    await project.save()
+  } catch (err) {
+    console.log(err)
+    res.render(`classes/${theClass._id}/projects/${project._id}/edit`, {
+      errorMsg: err.message
+    })
+  }
+  res.redirect(
+    `/classes/${req.params.classId}/projects/${req.params.projectId}/edit`
+  )
+}
+
 module.exports = {
   new: newProject,
   create,
   show,
   edit,
-  delete: deleteProject
+  delete: deleteProject,
+  update
 }
