@@ -17,26 +17,26 @@ const create = async (req, res) => {
   req.body.class = theClass._id
   console.log(req.body)
   const project = await Project.create(req.body)
-  const projectId = project._id
   req.body.students.forEach(async (ObjectId) => {
     let student = await Student.findById(ObjectId)
     let classIdx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.id)
     )
     let newProject = {
-      project: projectId
+      project: project._id
     }
     student.classes[classIdx].projects.push(newProject)
+    await student.save()
     console.log(student)
   })
   try {
     await project.save()
     theClass.projects.push(project._id)
     await theClass.save()
-    req.body.students.forEach(async (ObjectId) => {
-      let student = await Student.findById(ObjectId)
-      await student.save()
-    })
+    //req.body.students.forEach(async (ObjectId) => {
+    //  let student = await Student.findById(ObjectId)
+    //  await student.save()
+    //})
   } catch (err) {
     console.log(err)
     res.render(`classes/${theClass._id}/projects/new`, {
@@ -63,7 +63,7 @@ const show = async (req, res) => {
   const students = await Student.find({
     'classes.projects.project': project._id
   })
-  //console.log(students)
+  console.log(students)
   const classIndex = (student) => {
     let idx = student.classes.indexOf(theClass._id)
     return idx
