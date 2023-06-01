@@ -22,8 +22,8 @@
       <tr>
         <td><%= s.lastName %></td>
         <td><%= s.firstName %></td>
-        <td><%= s.classes[classIndex(s)][projectIndex(s)].role %></td>
-        <td><%= s.classes[classIndex(s)][projectIndex(s)].group %></td>
+        <td><%= s.classes[classIndex(s)].projects[projectIndex(s)].role %></td>
+        <td><%= s.classes[classIndex(s)].projects[projectIndex(s)].group %></td>
         <td>EDIT</td>
       </tr>
       <% }) %>

@@ -12,7 +12,7 @@ const studentSchema = new Schema(
         projects: [
           {
             project: { type: Schema.Types.ObjectId, ref: 'Project' },
-            role: String,
+            role: { type: String, default: 'Unassigned' },
             group: Number
           }
         ]

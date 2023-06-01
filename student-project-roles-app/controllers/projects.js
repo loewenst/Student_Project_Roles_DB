@@ -65,11 +65,15 @@ const show = async (req, res) => {
   })
   console.log(students)
   const classIndex = (student) => {
-    let idx = student.classes.indexOf(theClass._id)
+    let idx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.classId)
+    )
     return idx
   }
   const projectIndex = (student) => {
-    let idx = student.classes[classIndex(student)].indexOf(project._id)
+    let idx = student.classes[classIndex(student)].projects.findIndex((o) =>
+      o['project'].equals(req.params.projectId)
+    )
     return idx
   }
   res.render('projects/show', {
