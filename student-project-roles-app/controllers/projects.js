@@ -12,6 +12,12 @@ const create = async (req, res) => {
   })
   //console.log(properRoles)
   req.body.roles = properRoles
+  let groups = []
+  for (let i = 0; i < req.body.groups; i++) {
+    groups.push(i + 1)
+  }
+  req.body.groups = groups
+  console.log(req.body.groups)
   console.log(req.params.id)
   const theClass = await Class.findById(req.params.id)
   req.body.class = theClass._id
@@ -49,21 +55,16 @@ const create = async (req, res) => {
 const newProject = async (req, res) => {
   const theClass = await Class.findById(req.params.id).populate('students')
   const students = theClass.students
-  console.log(theClass)
   res.render(`projects/new`, { theClass, students })
 }
 
 const show = async (req, res) => {
-  console.log('Hitting Controller')
+  console.log('Hitting Show Controller')
   const theClass = await Class.findById(req.params.classId)
-  //console.log(theClass)
   const project = await Project.findById(req.params.projectId)
-  //console.log(project)
-  //const students = []
   const students = await Student.find({
     'classes.projects.project': project._id
   })
-  console.log(students)
   const classIndex = (student) => {
     let idx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.classId)
@@ -86,8 +87,40 @@ const show = async (req, res) => {
 }
 
 const edit = async (req, res) => {
-  const theClass = await Class.findById(req.params.id)
-  res.render(`projects/new`, { theClass })
+  console.log('Hitting the Edit Controller')
+  const theClass = await Class.findById(req.params.classId).populate('students')
+  console.log(theClass.students)
+  const project = await Project.findById(req.params.projectId)
+  const students = theClass.students
+  const inProject = (s) => {
+    //ternary, if student is in project Y, otherwise N
+  }
+  const hasRole = (s) => {
+    //ternary, if student has a role return role, otherwise blank
+  }
+  const hasGroup = (s) => {
+    //ternary, if student has group return group, otherwise blank
+  }
+  const classIndex = (student) => {
+    let idx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.classId)
+    )
+    return idx
+  }
+  const projectIndex = (student) => {
+    let idx = student.classes[classIndex(student)].projects.findIndex((o) =>
+      o['project'].equals(req.params.projectId)
+    )
+    return idx
+  }
+  res.render(`projects/edit`, {
+    theClass,
+    students,
+    project,
+    inProject,
+    classIndex,
+    projectIndex
+  })
 }
 
 const deleteProject = async (req, res) => {

@@ -12,6 +12,7 @@ const projectSchema = new Schema(
       }
     ],
     roles: [],
+    groups: [],
     class: {
       type: Schema.Types.ObjectId,
       ref: 'Class'
