@@ -10,17 +10,33 @@ const create = async (req, res) => {
     let properRole = role.charAt(0).toUpperCase() + role.slice(1)
     properRoles.push(properRole)
   })
-  console.log(properRoles)
+  //console.log(properRoles)
   req.body.roles = properRoles
+  console.log(req.params.id)
   const theClass = await Class.findById(req.params.id)
   req.body.class = theClass._id
-  //console.log(req.body)
+  console.log(req.body)
   const project = await Project.create(req.body)
+  const projectId = project._id
+  req.body.students.forEach(async (ObjectId) => {
+    let student = await Student.findById(ObjectId)
+    let classIdx = student.classes.findIndex((o) =>
+      o['class'].equals(req.params.id)
+    )
+    let newProject = {
+      project: projectId
+    }
+    student.classes[classIdx].projects.push(newProject)
+    console.log(student)
+  })
   try {
     await project.save()
-    console.log(project)
     theClass.projects.push(project._id)
     await theClass.save()
+    req.body.students.forEach(async (ObjectId) => {
+      let student = await Student.findById(ObjectId)
+      await student.save()
+    })
   } catch (err) {
     console.log(err)
     res.render(`classes/${theClass._id}/projects/new`, {
@@ -31,21 +47,23 @@ const create = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-  const theClass = await Class.findById(req.params.id)
-  res.render(`projects/new`, { theClass })
+  const theClass = await Class.findById(req.params.id).populate('students')
+  const students = theClass.students
+  console.log(theClass)
+  res.render(`projects/new`, { theClass, students })
 }
 
 const show = async (req, res) => {
   console.log('Hitting Controller')
   const theClass = await Class.findById(req.params.classId)
-  console.log(theClass)
+  //console.log(theClass)
   const project = await Project.findById(req.params.projectId)
-  console.log(project)
+  //console.log(project)
   //const students = []
   const students = await Student.find({
     'classes.projects.project': project._id
   })
-  console.log(students)
+  //console.log(students)
   const classIndex = (student) => {
     let idx = student.classes.indexOf(theClass._id)
     return idx

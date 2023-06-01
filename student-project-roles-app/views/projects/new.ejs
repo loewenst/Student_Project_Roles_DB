@@ -12,6 +12,34 @@
   <label>Roles:
     <input type="text" name="roles" placeholder="Write the names of the roles, separated by a comma.">
   </label>
+  <label>Number of Groups:
+    <input type="number" name="groups">
+  </label>
+</br>
+  <h3>Students</h3>
+<% if(students) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Last Name</th>
+      <th>First Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% students.forEach((s) => { %>
+      <tr>
+        <td><%= s.lastName %></td>
+        <td><%= s.firstName %></td>
+        <td>
+          <label> Add Student:
+          <input type="checkbox" id="<%= s._id %>" name="students" value="<%= s._id %>">
+        </label>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
   <button type="submit">Add Project</button>
 </form>
 

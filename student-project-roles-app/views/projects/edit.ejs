@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<form action="/classes/<%= theClass._id %>/projects/<%= project._id %>?_method=PUT" method="POST">
+  <h1><%= project.name %></h1>
+  
+  <h3>Description:</h3>
+  <input type="text" value="<%= project.description %>">
+  </br></br>
+
+</form>
+
+
+<h3>Students</h3>
+<% if(students) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Last Name</th>
+      <th>First Name</th>
+      <th>Role</th>
+      <th>Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% students.forEach((s) => { %>
+      <tr>
+        <td><%= s.lastName %></td>
+        <td><%= s.firstName %></td>
+        <td><%= s.classes[classIndex(s)][projectIndex(s)].role %></td>
+        <td><%= s.classes[classIndex(s)][projectIndex(s)].group %></td>
+        <td>EDIT</td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+  
+  <a href="classes/<%= theClass._id %>/projects/<%= project._id %>/edit">Add Students, Assign Roles and More</a>
+
+<%- include('../partials/footer') %>
