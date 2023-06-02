@@ -95,3 +95,14 @@ text-decoration: none;
 .classindex {
   margin-left: 2vw;
 }
+
+#addclass {
+  height: 80px;
+  width: 100px;
+  border: darkgray;
+  border-width: 2px;
+  box-shadow: 10px 10px 5px lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

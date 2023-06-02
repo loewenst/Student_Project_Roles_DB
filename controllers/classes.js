@@ -1,11 +1,14 @@
 const Class = require('../models/class')
+const Student = require('../models/student')
 
 const index = async (req, res) => {
   const classes = await Class.find({ creator: req.user._id }).populate(
     'students'
   )
+  const student = await Student.findOne({ email: req.user.email })
+  const studentId = student._id
   const enrolledClasses = await Class.find({
-    students: req.user.studentId
+    students: studentId
   }).populate('students')
   console.log(req.user.avatar)
   res.render('classes/index', {
