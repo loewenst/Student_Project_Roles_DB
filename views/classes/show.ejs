@@ -15,7 +15,7 @@
 <h3>Students</h3>
 <% if(theClass.students) { %>
   <% theClass.students.forEach((s) => { %>
-    <a href="/classes/<%= theClass._id %>/students/<%= s._id %>"><%= s.lastName %>, <%= s.firstName %></a>
+    <%= s.lastName %>, <%= s.firstName %></a>
   <% }); %>
 <% } else { %>
 <h5>No Students Yet</h5>

@@ -6,11 +6,13 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: black;
+text-decoration: none;
 }
 
 #headerNav {
-  background-color: lightgray;
+  background-color: rgb(244, 238, 238);
+  border-bottom: grey;
   height: 8vh;
   display: flex;
   flex-direction: row;
@@ -23,8 +25,17 @@ a {
 }
 
 #leftNav {
+  margin-left: 2vw;
   display: flex;
   flex-direction: row;
+}
+
+#rightNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2vw;
 }
 
 .login {
@@ -36,4 +47,51 @@ a {
 
 .login img {
   height: 30px;
+}
+
+#landingExplainer {
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4vh;
+}
+
+#landingExplainer h1 {
+  text-align: center;
+  font-size: x-large;
+}
+
+#landingImage {
+  width: 50vw;
+  border-radius: 5%;
+  box-shadow: 10px 10px 5px lightblue;
+}
+
+.classnav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1vw;
+  margin-left: 2vw;
+}
+
+.classbox {
+  height: 80px;
+  width: 100px;
+  border: darkgray;
+  border-width: 2px;
+  box-shadow: 10px 10px 5px lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.classindex {
+  margin-left: 2vw;
 }

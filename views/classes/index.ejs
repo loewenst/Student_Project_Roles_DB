@@ -1,11 +1,12 @@
 <%- include('../partials/header') %>
 
-<h1>My Classes</h1>
+<h1 class="classindex">My Classes</h1>
 
 <% if (classes) { %>
-  <nav>
+  <h2 class="classindex">Classes I Manage</h2>
+  <nav class="classnav" class="classindex">
     <% classes.forEach((c) => { %>
-      <div>
+      <div class="classbox">
         <a href="/classes/<%= c._id %>"><%= c.name %></a>
       </div>
     <% }) %>
@@ -16,10 +17,10 @@
 </br>
 
 <% if (enrolledClasses) { %>
-  <h2>Classes I'm Taking</h2>
-  <nav>
+  <h2 class="classindex">Classes I'm Taking</h2>
+  <nav class="classnav" class="classindex">
     <% enrolledClasses.forEach((c) => { %>
-      <div>
+      <div class="classbox">
         <a href="/classes/s/<%= c._id %>"><%= c.name %></a>
       </div>
     <% }) %>

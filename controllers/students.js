@@ -72,6 +72,7 @@ const create = async (req, res) => {
 }
 
 const classShow = async (req, res) => {
+  console.log(req.user)
   const theClass = await Class.findById(req.params.id)
     .populate('students')
     .populate('projects')
@@ -82,18 +83,24 @@ const classShow = async (req, res) => {
   //make a function that takes in a user student id, returns an array of projects that contain the student id,
   //and then displays information for each of those projects in divs
   const getProjects = async (email) => {
-    const student = await Student.find({ email: req.user.email })
+    const student = await Student.findOne({ email: req.user.email })
+    console.log('studentObject', student)
     const studentId = student._id
+    console.log('lastname')
+    console.log('studentid', student._id)
+    console.log('classid', theClass._id)
     const projectArray = await Project.find({
       class: theClass._id,
       students: studentId
     })
     console.log(projectArray)
-    return projectArray
+    //  return projectArray
+    res.render('students/classShow', { theClass, projectArray, email })
   }
+  getProjects(email)
+  //let projectArray = getProjects(email)
   //projectArray = getProjects(email)
   //console.log(projectArray)
-  res.render('students/classShow', { theClass, getProjects, email })
 }
 
 module.exports = {

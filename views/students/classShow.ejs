@@ -11,7 +11,7 @@
 
 <h3>My Projects</h3>
 <% if(theClass.projects) { %>
-    <% getProjects(email).forEach((p) => { %>
+    <% projectArray.forEach((p) => { %>
       <%= p.name %>
     <% }); %>
 <% } else { %>
