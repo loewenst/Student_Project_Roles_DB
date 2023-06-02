@@ -26,4 +26,5 @@ router.put(
   ensureLoggedIn,
   projectCtrl.update
 )
+
 module.exports = router

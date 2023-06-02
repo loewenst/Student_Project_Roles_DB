@@ -16,10 +16,7 @@
     <input type="number" name="groups" value="project.groups.length">
   </label>
   <button type="submit">Submit Changes</button>
-</form>
 
-
-<form action="/classes/<%= theClass._id %>/projects/<%= project._id %>?_method=PUT" method="POST"></form>
   <h3>Students</h3>
   <% if(students) { %>
     <table>
@@ -79,8 +76,6 @@
     </table>
   <% } %>
   <button type="submit">Submit Changes</button>
-</form>
-                              
-                              
+</form>                              
                     
 <%- include('../partials/footer') %>

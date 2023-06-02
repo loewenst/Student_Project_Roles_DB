@@ -12,6 +12,23 @@
   </nav>
   <% } %>
 
+</br>
+</br>
+
+<% if (enrolledClasses) { %>
+  <h2>Classes I'm Taking</h2>
+  <nav>
+    <% enrolledClasses.forEach((c) => { %>
+      <div>
+        <a href="/classes/s/<%= c._id %>"><%= c.name %></a>
+      </div>
+    <% }) %>
+  </nav>
+  <% } %>
+
+</br>
+</br>
+
 <a href="classes/new">Add a New Class</a>
 
 <%- include('../partials/footer') %>

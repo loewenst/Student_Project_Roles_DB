@@ -5,7 +5,7 @@ const studentSchema = new Schema(
   {
     lastName: { type: String, required: true },
     firstName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     classes: [
       {
         class: { type: Schema.Types.ObjectId, ref: 'Class' },
@@ -13,7 +13,7 @@ const studentSchema = new Schema(
           {
             project: { type: Schema.Types.ObjectId, ref: 'Project' },
             role: { type: String, default: 'Unassigned' },
-            group: Number
+            group: { type: Number }
           }
         ]
       }

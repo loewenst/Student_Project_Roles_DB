@@ -10,9 +10,8 @@ const userSchema = new Schema(
     },
     email: String,
     avatar: String,
-    teacher: { type: Boolean, default: false },
-    student: { type: Boolean, default: false },
-    admin: { type: Boolean, default: false }
+    admin: { type: Boolean, default: false },
+    studentId: { type: Schema.Types.ObjectId, ref: 'Student' }
   },
   {
     timestamps: true

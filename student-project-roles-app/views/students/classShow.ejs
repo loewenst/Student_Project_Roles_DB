@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+<h1><%= theClass.name %></h1>
+
+<h3>Students</h3>
+<% theClass.students.forEach((s) => { %>
+  <%= s.lastName %>, <%= s.firstName %>, <%= s.email %>
+<% }); %>
+
+</br>
+
+<h3>My Projects</h3>
+<% if(theClass.projects) { %>
+    <% getProjects(email).forEach((p) => { %>
+      <%= p.name %>
+    <% }); %>
+<% } else { %>
+  <h5>No Projects Yet</h5>
+<% } %>
+
+
+<%- include('../partials/footer') %>

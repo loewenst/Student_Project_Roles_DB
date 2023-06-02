@@ -21,8 +21,10 @@ const create = async (req, res) => {
   req.body.class = theClass._id
   const project = await Project.create(req.body)
   //updating the student models with the project ids
+  console.log(req.body.students)
   req.body.students.forEach(async (ObjectId) => {
     let student = await Student.findById(ObjectId)
+    console.log(student)
     let classIdx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.id)
     )
@@ -71,6 +73,7 @@ const show = async (req, res) => {
     )
     return idx
   }
+  console.log('Made it through the controller functions')
   res.render('projects/show', {
     project,
     theClass,
@@ -137,7 +140,6 @@ const deleteProject = async (req, res) => {
 const update = async (req, res) => {
   const theClass = await Class.findById(req.params.classId).populate('students')
   const project = await Project.findById(req.params.projectId)
-  const students = theClass.students
   //formatting the new roles
   let roles = req.body.roles.split(' ').join('').split(',')
   let properRoles = []
@@ -156,6 +158,7 @@ const update = async (req, res) => {
   const currentStudents = await Student.find({
     'classes.projects.project': req.params.projectId
   })
+  console.log(currentStudents)
   currentStudents.forEach(async (student) => {
     let classIdx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.classId)
@@ -165,10 +168,12 @@ const update = async (req, res) => {
     )
     student.classes[classIdx].projects.splice([projectIdx], 1)
     await student.save()
+    console.log(student.classes)
   })
   //adding the project id to all students currently selected
+  //console.log(req.body.students)
   req.body.students.forEach(async (ObjectId) => {
-    let student = await Student.findById(ObjectId)
+    let student = await Student.findById(ObjectId).populate('classes')
     let classIdx = student.classes.findIndex((o) =>
       o['class'].equals(req.params.classId)
     )
@@ -179,11 +184,18 @@ const update = async (req, res) => {
       role: req.body[studentRole],
       group: req.body[studentGroup]
     }
+    console.log(newProject)
     student.classes[classIdx].projects.push(newProject)
     await student.save()
+    console.log(student)
   })
+  console.log('This is the req.body', req.body)
+  project.name = req.body.name
+  project.description = req.body.description
+  project.roles = req.body.roles
+  project.groups = req.body.groups
+  project.students = req.body.students
   try {
-    await Project.findOneAndUpdate({ _id: req.params.projectId }, req.body)
     await project.save()
   } catch (err) {
     console.log(err)
@@ -191,9 +203,7 @@ const update = async (req, res) => {
       errorMsg: err.message
     })
   }
-  res.redirect(
-    `/classes/${req.params.classId}/projects/${req.params.projectId}/edit`
-  )
+  res.redirect(`/classes/${req.params.classId}/projects/${project._id}`)
 }
 
 module.exports = {
