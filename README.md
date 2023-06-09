@@ -71,7 +71,7 @@ The class index page displays two navbars: one of classes managed by the user, a
 
 _Show Class_
 
-The class show page displays a navbar of projects, and a list of students.
+The class show page displays a navbar of projects, and a list of students. UP TO HERE
 
 _New Class_
 

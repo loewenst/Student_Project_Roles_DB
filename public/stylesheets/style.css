@@ -105,4 +105,22 @@ text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+
+.studentdiv {
+  width: 40vw;
+  height: 20px;
+  background-color: rgb(236, 235, 233);
+  border-radius: 5%;
+  border-color: rgb(172, 172, 172);
+  border-width: 1px;
+  border-style: solid;
+  text-align: center;
+  margin: 10px;
+  margin-left: 50px;
+}
+
+#addstudent {
+  background-color: rgb(32, 128, 128);
 }

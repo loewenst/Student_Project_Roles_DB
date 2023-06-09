@@ -1,25 +1,35 @@
 <%- include('../partials/header') %>
 
-<h1><%= theClass.name %></h1>
+<h1 class="classindex"><%= theClass.name %></h1>
 
-<h3>Projects</h3>
-<% if(theClass.projects) { %>
+<h3 class="classindex">Projects</h3>
+<nav class="classnav" class="classindex">
+    <% if(theClass.projects) { %>
     <% theClass.projects.forEach((p) => { %>
-      <a href="/classes/<%= theClass._id %>/projects/<%= p._id %>"><%= p.name %></a>
-    <% }); %>
-<% } else { %>
-  <h5>No Projects Yet</h5>
-<% } %>
-<a href="/classes/<%= theClass._id %>/projects/new">Add Project</a>
+      <div class="classbox">
+        <a href="/classes/<%= theClass._id %>/projects/<%= p._id %>"><%= p.name %></a>
+      </div>
+    <% })} %>
+    <div class="classbox">
+      <a href="/classes/<%= theClass._id %>/projects/new">Add Project</a>
+    </div>
+  </nav>
 
-<h3>Students</h3>
-<% if(theClass.students) { %>
-  <% theClass.students.forEach((s) => { %>
-    <%= s.lastName %>, <%= s.firstName %></a>
-  <% }); %>
-<% } else { %>
-<h5>No Students Yet</h5>
-<% } %>
-<a href="/classes/<%= theClass._id %>/students/new">Add Student</a>
+
+<h3 class="classindex">Students</h3>
+<section id="studentlist">
+  <% if(theClass.students) { %>
+    <% theClass.students.forEach((s) => { %>
+      <div class="studentdiv" class="classindex">
+        <%= s.lastName %>, <%= s.firstName %></a>
+      </div>
+      <% }); %>
+      <div class="studentdiv" class="classindex" id="addstudent">
+        <a href="/classes/<%= theClass._id %>/students/new">Add Student</a>
+      </div>
+      <% } else { %>
+        <h5 class="classindex">No Students Yet</h5>
+        <% } %>
+  </section>
 
 <%- include('../partials/footer') %>
